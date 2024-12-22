@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link href="todolist.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Block containing input field and button to add a task -->
+<div id="block">
+    <input type="text" placeholder="Enter a task" id="add">    <!-- Text input field for the user to enter a task -->
+    <button id="addbtn" onclick="addtsk()">ADD</button>        <!-- Button to trigger the addition of the task -->
+</div>
+
+
+<!-- Container for the ordered list where tasks will be displayed -->
+<div>
+    <ol id="tsklist" type="1"></ol>     <!-- Ordered list (numbered list) to display tasks -->
+</div>
+
+<script>
+    // Function that adds a task when the "ADD" button is clicked
+    function addtsk() {
+    let tsk = document.getElementById("add").value;    // Get the value entered by the user in the input field
+
+        // Check if the task is empty
+        if (tsk === "") {
+            alert("Please Enter a task");      // Show an alert if no task was entered
+            return;                            // Stop the function execution
+        }
+
+        let list = document.getElementById("tsklist");       // Get the ordered list (ol) where tasks will be added
+        let li = document.createElement("li");              // Create a new list item (li) to hold the task
+
+
+        // Create a span element to store the task text separately from the buttons
+        let taskText = document.createElement("span");
+        taskText.textContent = tsk;                       // Set the text content of the span to the entered task
+        li.appendChild(taskText);                        // Append the span to the list item (li)
+
+
+        // Create a container for the action buttons (Edit and Delete)
+        let buttonGroup = document.createElement("div");
+        buttonGroup.className = "button-group";        // Set a class for styling the button group
+
+
+
+        // Create the Edit button
+        let editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";                // Set the button text to "Edit"
+        editBtn.className = "editBtn";               // Assign a class for potential styling
+        editBtn.onclick = function() {          
+            let newTask = prompt("Edit your Task:", taskText.textContent);           
+            if (newTask !== null && newTask !== "") {
+                taskText.textContent = newTask;              // Update the task text in the span element
+            }
+        };
+        buttonGroup.appendChild(editBtn);                    // Append the Edit button to the button group
+
+
+
+        // Create the Delete button
+        let deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";                   // Set the button text to "Delete"
+        deleteBtn.className = "deleteBtn"; 
+        deleteBtn.onclick = function() { 
+            list.removeChild(li);                          // Remove the task (list item) from the ordered list
+        };
+        buttonGroup.appendChild(deleteBtn);                // Append the Delete button to the button group
+
+        li.appendChild(buttonGroup);                       // Append the button group to the list item (li)
+
+        list.appendChild(li);                              // Append the list item (li) to the ordered list (tsklist)
+
+        document.getElementById("add").value = "";        // Clear the input field after adding the task
+    }
+</script>
+</body>
+</html>
+
+
+
